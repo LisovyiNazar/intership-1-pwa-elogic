@@ -1,5 +1,4 @@
 node_modules
-packages
 npm-debug.log
 .DS_Store
 .vscode
@@ -22,3 +21,15 @@ docker/certs
 
 ## May temporarily create tarballs during scaffolding debug
 packages/**/*.tgz
+
+packages/babel-preset-peregrine
+packages/create-pwa
+packages/extensions
+packages/graphql-cli-validate-magento-pwa-queries
+packages/pagebuilder
+packages/peregrine
+packages/pwa-buildpack
+packages/pwa-theme-venia
+packages/upward-js
+packages/upward-spec
+packages/venia-ui

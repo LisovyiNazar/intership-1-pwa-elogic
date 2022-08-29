@@ -2,7 +2,6 @@ import React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-
 import { useAdapter } from '@magento/peregrine/lib/talons/Adapter/useAdapter';
 import { AppContextProvider } from '@magento/venia-ui/lib/components/App';
 import App from '../App'
