@@ -10,6 +10,8 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/Footer/footer.module.css';
 import { DEFAULT_LINKS, LOREM_IPSUM } from '@magento/venia-ui/lib/components/Footer/sampleData';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBehance, faFacebookF, faGoogle, faSkype, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = props => {
     const { links } = props;
@@ -83,15 +85,18 @@ const Footer = props => {
                             defaultMessage={LOREM_IPSUM}
                         />
                     </p>
-                    <ul className={classes.socialLinks}>
+                    <ul className='socialIcons'> {/* Customize social links */}
                         <li>
-                            <Instagram size={20} />
+                            <FontAwesomeIcon size='2x' className='faSocialIcon' icon={faInstagram}/>
+                            {/* <Instagram size={20} /> */}
                         </li>
                         <li>
-                            <Facebook size={20} />
+                            <FontAwesomeIcon size='2x' className='faSocialIcon' icon={faFacebookF}/>
+                            {/* <Facebook size={20} /> */}
                         </li>
                         <li>
-                            <Twitter size={20} />
+                            <FontAwesomeIcon size='2x' className='faSocialIcon' icon={faTwitter}/>
+                            {/* <Twitter size={20} /> */}
                         </li>
                     </ul>
                 </div>

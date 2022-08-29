@@ -11,6 +11,28 @@
     color: rgb(var(--venia-global-color-test-blue));
 }
 
+
+/* Task 4: customize social links */
+:global(.socialIcons) {
+    max-width: 200px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+:global(.faSocialIcon) {
+    cursor: pointer;
+    transition: 0.3s;
+    padding-right: 20px;
+}
+
+:global(.faSocialIcon:hover) {
+    transition: 0.3s;
+    font-size: 2.3em;
+    color: rgb(var(--venia-global-color-test-blue));
+}
+
 /* TODO @TW: cannot compose */
 :global(html) {
     /* composes: text-[100%] from global; */
