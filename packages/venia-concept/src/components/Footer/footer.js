@@ -14,6 +14,7 @@ import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 const Footer = props => {
     const { links } = props;
     const classes = useStyle(defaultClasses, props.classes);
+    console.log("test: " + Object.values(classes));
     const talonProps = useFooter();
 
     const { copyrightText } = talonProps;
@@ -57,9 +58,9 @@ const Footer = props => {
     return (
         <footer data-cy="Footer-root" className={classes.root}>
             <div className={classes.links}>
-                <div className={classes.link}>
+                <div className="test_link">
                     <Link to="/foo">
-                       <span className={classes.label}>Foo Demo Page</span>
+                       <span className={classes.label}>Foo Demo Page</span> {/* Task 2: add new column to footer*/}
                     </Link>
                 </div>
                 {linkGroups}
