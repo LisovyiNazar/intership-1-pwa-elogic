@@ -16,7 +16,6 @@ import { faBehance, faFacebookF, faGoogle, faSkype, faTwitter, faInstagram } fro
 const Footer = props => {
     const { links } = props;
     const classes = useStyle(defaultClasses, props.classes);
-    console.log("test: " + Object.values(classes));
     const talonProps = useFooter();
 
     const { copyrightText } = talonProps;
