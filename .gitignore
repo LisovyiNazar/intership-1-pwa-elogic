@@ -32,4 +32,10 @@ packages/pwa-buildpack
 packages/pwa-theme-venia
 packages/upward-js
 packages/upward-spec
-packages/venia-ui
+packages/venia-ui/__mocks__
+packages/venia-ui/.storybook
+packages/venia-ui/lib
+packages/venia-ui/node_modules
+packages/venia-ui/venia-static
+packages/venia-ui/package.json
+packages/venia-ui/upward.yml

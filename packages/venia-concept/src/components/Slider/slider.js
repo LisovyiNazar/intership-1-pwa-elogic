@@ -10,7 +10,7 @@ import {
 } from 'prop-types';
 
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
-import './swiper-bundle.css';
+import 'swiper/swiper-bundle.css';
 import './slider-dots.css';
 import SwiperCore, { Autoplay, Keyboard, Mousewheel, Navigation, Pagination } from 'swiper';
 SwiperCore.use([ Autoplay, Keyboard, Mousewheel, Navigation, Pagination ]);

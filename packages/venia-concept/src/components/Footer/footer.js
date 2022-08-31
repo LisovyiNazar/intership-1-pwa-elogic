@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { Facebook, Instagram, Twitter } from 'react-feather';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { shape, string } from 'prop-types';
@@ -11,7 +10,7 @@ import defaultClasses from '@magento/venia-ui/lib/components/Footer/footer.modul
 import { DEFAULT_LINKS, LOREM_IPSUM } from '@magento/venia-ui/lib/components/Footer/sampleData';
 import resourceUrl from '@magento/peregrine/lib/util/makeUrl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBehance, faFacebookF, faGoogle, faSkype, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = props => {
     const { links } = props;
