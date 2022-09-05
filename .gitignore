@@ -27,7 +27,7 @@ packages/create-pwa
 packages/extensions
 packages/graphql-cli-validate-magento-pwa-queries
 packages/pagebuilder
-packages/peregrine
+# packages/peregrine
 packages/pwa-buildpack
 packages/pwa-theme-venia
 packages/upward-js
