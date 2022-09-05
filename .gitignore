@@ -27,14 +27,24 @@ packages/create-pwa
 packages/extensions
 packages/graphql-cli-validate-magento-pwa-queries
 packages/pagebuilder
-# packages/peregrine
 packages/pwa-buildpack
 packages/pwa-theme-venia
 packages/upward-js
 packages/upward-spec
 packages/venia-ui/__mocks__
 packages/venia-ui/.storybook
-packages/venia-ui/lib
+
+packages/venia-ui/lib/__mocks__
+packages/venia-ui/lib/components
+packages/venia-ui/lib/constants
+packages/venia-ui/lib/drivers
+packages/venia-ui/lib/targets
+packages/venia-ui/lib/util
+packages/venia-ui/lib/classify.js
+packages/venia-ui/lib/defaultRoutes.json
+packages/venia-ui/lib/index.js
+packages/venia-ui/lib/index.module.css
+packages/venia-ui/lib/tokens.module.css
 packages/venia-ui/node_modules
 packages/venia-ui/venia-static
 packages/venia-ui/package.json
