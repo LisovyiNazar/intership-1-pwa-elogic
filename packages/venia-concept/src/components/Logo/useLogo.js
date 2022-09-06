@@ -10,7 +10,8 @@ const getLogoQuery = gql`
             logo_width
             store_code
         }
-}`;
+    }
+`;
 
 const useLogo = () => {
     return useQuery(getLogoQuery);

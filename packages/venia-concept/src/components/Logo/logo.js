@@ -9,8 +9,11 @@ const Logo = props => {
     const classes = useStyle(defaultClasses, props.classes);
     const talonProps = useLogo();
     const { data } = talonProps;
-    const url = "logo/" + data.storeConfig.header_logo_src;
-    const alt = data.storeConfig.logo_alt != null ? data.storeConfig.logo_alt : 'none';
+
+    const url = data ? "logo/" + data.storeConfig.header_logo_src : 'https://blueskytechmage.com/drexel/pub/media/logo/stores/2/logo.png';
+    const alt = data ? data.storeConfig.logo_alt : null;
+    const height = data ? data.storeConfig.logo_height : 25;
+    const width = data ? data.storeConfig.logo_width : 120;
 
     return (
         <Image 
@@ -20,11 +23,11 @@ const Logo = props => {
                     url, 
                     {
                         type: 'image-header-logo',
-                        width: data.storeConfig.logo_width
+                        width: width
                     }
                 )
             }
-            height={data.storeConfig.logo_height}
+            height={height}
             alt={alt}
         />
     );

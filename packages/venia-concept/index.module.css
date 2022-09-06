@@ -165,3 +165,7 @@
         .braintree-form__descriptor) {
     color: #757575 !important;
 }
+
+:global(.gallery-brand) {
+    height: 20px;
+}
