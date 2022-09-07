@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { useMutation, useQuery } from '@apollo/client';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import { useToasts } from '@magento/peregrine';
 
 import { appendOptionsToPayload } from '@magento/peregrine/lib/util/appendOptionsToPayload';
 import { findMatchingVariant } from '@magento/peregrine/lib/util/findMatchingProductVariant';
@@ -247,6 +248,8 @@ export const useProductFullDetail = props => {
 
     const [, { dispatch }] = useEventingContext();
 
+    const [, { addToast }] = useToasts();
+
     const hasDeprecatedOperationProp = !!(
         addConfigurableProductToCartMutation || addSimpleProductToCartMutation
     );
@@ -260,6 +263,7 @@ export const useProductFullDetail = props => {
     const [{ cartId }] = useCartContext();
     const [{ isSignedIn }] = useUserContext();
     const { formatMessage } = useIntl();
+    const intl = useIntl();
 
     const { data: storeConfigData } = useQuery(
         operations.getWishlistConfigQuery,
@@ -503,6 +507,22 @@ export const useProductFullDetail = props => {
                             selectedOptions: selectedOptionsLabels,
                             quantity
                         }
+                    });
+
+                    addToast({
+                        message: intl.formatMessage(
+                            { 
+                                id: 'productFullDetail.success',
+                                // defaultMessage: `You added '${product.name}' to your cart`
+                            }
+                            , 
+                            { 
+                                name: product.name 
+                            }
+                        ),
+                        onDismiss: remove => remove(),
+                        timeout: 5000,
+                        type: 'success'
                     });
                 } catch {
                     return;

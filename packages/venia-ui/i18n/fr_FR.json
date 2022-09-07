@@ -352,6 +352,7 @@
     "productForm.quantity": "Quantity",
     "productForm.submit": "Update",
     "productForm.updatingCart": "Updating Cart...",
+    "productFullDetail.success": "Vous avez ajouté {name} à votre panier",
     "productFullDetail.addItemToCart": "Add to Cart",
     "productFullDetail.itemOutOfStock": "Out of Stock",
     "productFullDetail.errorCart": "There was a problem with your cart. Please refresh the page and try adding the item once more.",
