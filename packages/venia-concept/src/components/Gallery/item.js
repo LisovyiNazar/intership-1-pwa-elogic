@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Info } from 'react-feather';
 import { string, number, shape } from 'prop-types';
@@ -12,9 +12,12 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import Image from '@magento/venia-ui/lib/components/Image';
 import GalleryItemShimmer from '@magento/venia-ui/lib/components/Gallery/item.shimmer';
 import defaultClasses from '@magento/venia-ui/lib/components/Gallery/item.module.css';
+import customStyles from './custom-item.module.css';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton'
 
 import AddToCartButton from '@magento/venia-ui/lib/components/Gallery/addToCartButton';
+import { AiFillEye } from 'react-icons/ai';
+import QuickView from '../QuickView'
 
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
@@ -39,7 +42,9 @@ const GalleryItem = props => {
 
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
-    const classes = useStyle(defaultClasses, props.classes);
+    const classes = useStyle(defaultClasses, props.classes, customStyles);
+
+    const [isQuick, setIsQuick] = useState(false);
 
     if (!item) {
         return <GalleryItemShimmer classes={classes} />;
@@ -74,6 +79,11 @@ const GalleryItem = props => {
         price_range.maximum_price.final_price ||
         price_range.maximum_price.regular_price;
 
+    useEffect(() => {
+        if (isQuick) document.body.style.overflow = 'hidden';
+        else document.body.style.overflow = 'visible';
+    }, [isQuick]);
+
     return (
         <div
             data-cy="GalleryItem-root"
@@ -82,6 +92,12 @@ const GalleryItem = props => {
             aria-busy="false"
             ref={itemRef}
         >
+            { isQuick ? <QuickView setIsOpen={setIsQuick} product={item}/> : ""}
+            
+            <div className={classes.quickViewItem}>
+                <AiFillEye size={28} onClick={() => setIsQuick(current => !current)}/>
+            </div>
+            
             <Link
                 onClick={handleLinkClick}
                 to={productLink}
@@ -100,7 +116,7 @@ const GalleryItem = props => {
                     widths={IMAGE_WIDTHS}
                 />
             </Link>
-            <div className='gallery-brand'>
+            <div className={classes.galleryBrand}>
                 {item.product_brand}
             </div>
             <Link
