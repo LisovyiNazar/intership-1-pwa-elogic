@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, useMemo } from 'react';
+import React, { Fragment, Suspense } from 'react';
 import quickViewStyles from './quickViewContent.module.css'
 
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -19,7 +19,9 @@ import RichContent from '@magento/venia-ui/lib/components/RichContent/richConten
 import { ProductOptionsShimmer } from '@magento/venia-ui/lib/components/ProductOptions';
 import defaultClasses from '@magento/venia-ui/lib/components/ProductFullDetail/productFullDetail.module.css';
 import { GrClose } from 'react-icons/gr'
-import { IconContext } from 'react-icons/lib';
+
+const Options = React.lazy(() => import('../ProductOptions'));
+const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
 
 const ERROR_MESSAGE_TO_FIELD_MAPPING = {
     'The requested qty is not available': 'quantity',
@@ -37,9 +39,6 @@ const QuickView = (props) => {
     const { product, setIsOpen } = props;
 
     const talonProps = useProductFullDetail({ product });
-
-    const Options = React.lazy(() => import('@magento/venia-ui/lib/components/ProductOptions'));
-    const WishlistButton = React.lazy(() => import('@magento/venia-ui/lib/components/Wishlist/AddToListButton'));
     
     const {
         errorMessage,
@@ -52,7 +51,6 @@ const QuickView = (props) => {
         isSupportedProductType,
         mediaGalleryEntries,
         productDetails,
-        customAttributes,
         wishlistButtonProps
     } = talonProps;
 
