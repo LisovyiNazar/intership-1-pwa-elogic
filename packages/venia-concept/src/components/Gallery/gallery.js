@@ -5,7 +5,9 @@ import { useStyle } from '@magento/venia-ui/lib/classify';
 import GalleryItem from './item';
 import GalleryItemShimmer from '@magento/venia-ui/lib/components/Gallery/item.shimmer';
 import defaultClasses from '@magento/venia-ui/lib/components/Gallery/gallery.module.css';
+import customStyles from './custom-item.module.css';
 import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
+import { VIEW_MODE } from '../../constants/categoryConstants';
 
 /**
  * Renders a Gallery of items. If items is an array of nulls Gallery will render
@@ -14,10 +16,11 @@ import { useGallery } from '@magento/peregrine/lib/talons/Gallery/useGallery';
  * @params {Array} props.items an array of items to render
  */
 const Gallery = props => {
-    const { items } = props;
-    const classes = useStyle(defaultClasses, props.classes);
+    const { items, viewMode } = props;
+    const classes = useStyle(defaultClasses, props.classes, customStyles);
     const talonProps = useGallery();
     const { storeConfig } = talonProps;
+    const { GRID } = VIEW_MODE;
 
     const galleryItems = useMemo(
         () =>
@@ -30,10 +33,11 @@ const Gallery = props => {
                         key={item.id}
                         item={item}
                         storeConfig={storeConfig}
+                        viewMode={viewMode}
                     />
                 );
             }),
-        [items, storeConfig]
+        [items, storeConfig, viewMode]
     );
 
     return (
@@ -43,7 +47,7 @@ const Gallery = props => {
             aria-live="polite"
             aria-busy="false"
         >
-            <div className={classes.items}>{galleryItems}</div>
+            <div className={viewMode === GRID ? classes.items : classes.list}>{galleryItems}</div>
         </div>
     );
 };

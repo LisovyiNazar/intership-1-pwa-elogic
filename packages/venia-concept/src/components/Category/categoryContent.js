@@ -1,5 +1,6 @@
-import React, { Fragment, Suspense, useMemo, useRef } from 'react';
+import React, { Fragment, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useHistory, useLocation } from 'react-router-dom';
 import { array, number, shape, string } from 'prop-types';
 
 import { useIsInViewport } from '@magento/peregrine/lib/hooks/useIsInViewport';
@@ -20,13 +21,17 @@ import Shimmer from '@magento/venia-ui/lib/components/Shimmer';
 import SortedByContainer, {
     SortedByContainerShimmer
 } from '@magento/venia-ui/lib/components/SortedByContainer';
-import defaultClasses from '@magento/venia-ui/lib/RootComponents/Category/category.module.css';
+import defaultClasses from './category.module.css';
 import NoProductsFound from '@magento/venia-ui/lib/RootComponents/Category/NoProductsFound';
+import { BsGrid3X2GapFill, BsViewList } from 'react-icons/bs';
+import { VIEW_MODE } from '../../constants/categoryConstants';
 
 const FilterModal = React.lazy(() => import('@magento/venia-ui/lib/components/FilterModal'));
 const FilterSidebar = React.lazy(() =>
     import('@magento/venia-ui/lib/components/FilterSidebar')
 );
+
+const { VIEW, GRID, LIST } = VIEW_MODE;
 
 const CategoryContent = props => {
     const {
@@ -55,8 +60,56 @@ const CategoryContent = props => {
         totalPagesFromData
     } = talonProps;
 
-    const sidebarRef = useRef(null);
+     
     const classes = useStyle(defaultClasses, props.classes);
+
+    const sidebarRef = useRef(null);
+
+    const history = useHistory();
+    const location = useLocation();
+    
+    const { search } = location;
+
+    const urlParams = new URLSearchParams(search)
+    
+    const [viewMode, setViewMode] = useState(urlParams.get(LIST) ? urlParams.get(LIST) : GRID);
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(search);
+
+        if (!urlParams.get(VIEW)) {
+            urlParams.append(VIEW, viewMode);
+            history.replace({
+                search: `?${urlParams.toString()}`,
+            })
+        } else {
+            urlParams.set(VIEW, viewMode);
+            history.replace({
+                search: urlParams.toString(),
+            })
+        }
+    }, [viewMode]);
+
+    const maybeViewButtons = useMemo(() => {
+        const viewModeClass = (mode) => {
+            return viewMode === mode ? classes.activeViewButton : classes.viewButton 
+        }
+        return (
+            <section className={classes.viewButtonsContainer}>
+                <BsGrid3X2GapFill 
+                    className={viewModeClass(GRID)} 
+                    size={30}
+                    onClick={() => setViewMode(GRID)}
+                />
+                <BsViewList 
+                    className={viewModeClass(LIST)} 
+                    size={30}
+                    onClick={() => setViewMode(LIST)}
+                />
+            </section>
+        );
+    }, [viewMode]);
+
     const shouldRenderSidebarContent = useIsInViewport({
         elementRef: sidebarRef
     });
@@ -122,7 +175,7 @@ const CategoryContent = props => {
         }
 
         const gallery = totalPagesFromData ? (
-            <Gallery items={items} />
+            <Gallery items={items} viewMode={viewMode}/>
         ) : (
             <GalleryShimmer items={items} />
         );
@@ -171,13 +224,16 @@ const CategoryContent = props => {
                             {shouldRenderSidebarContent ? sidebar : null}
                         </Suspense>
                     </div>
-                    <div className={classes.categoryContent}>
+                    <div className={classes.categoryContents}>
                         <div className={classes.heading}>
                             <div
                                 data-cy="CategoryContent-categoryInfo"
                                 className={classes.categoryInfo}
                             >
                                 {categoryResultsHeading}
+                            </div>
+                            <div className={classes.viewButtons}>
+                                {maybeViewButtons}  
                             </div>
                             <div className={classes.headerButtons}>
                                 {maybeFilterButtons}

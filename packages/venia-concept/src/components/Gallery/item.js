@@ -13,11 +13,13 @@ import Image from '@magento/venia-ui/lib/components/Image';
 import GalleryItemShimmer from '@magento/venia-ui/lib/components/Gallery/item.shimmer';
 import defaultClasses from '@magento/venia-ui/lib/components/Gallery/item.module.css';
 import customStyles from './custom-item.module.css';
+import listStyles from './list.module.css';
 import WishlistGalleryButton from '@magento/venia-ui/lib/components/Wishlist/AddToListButton'
 
 import AddToCartButton from '@magento/venia-ui/lib/components/Gallery/addToCartButton';
 import { AiFillEye } from 'react-icons/ai';
 import QuickView from '../QuickView'
+import { VIEW_MODE } from '../../constants/categoryConstants';
 
 // The placeholder image is 4:5, so we should make sure to size our product
 // images appropriately.
@@ -29,6 +31,8 @@ const IMAGE_WIDTHS = new Map()
     .set(640, IMAGE_WIDTH)
     .set(UNCONSTRAINED_SIZE_KEY, 840);
 
+const { GRID, LIST } = VIEW_MODE;
+
 const GalleryItem = props => {
     const {
         handleLinkClick,
@@ -38,11 +42,11 @@ const GalleryItem = props => {
         isSupportedProductType
     } = useGalleryItem(props);
 
-    const { storeConfig } = props;
+    const { storeConfig, viewMode } = props;
 
     const productUrlSuffix = storeConfig && storeConfig.product_url_suffix;
 
-    const classes = useStyle(defaultClasses, props.classes, customStyles);
+    const classes = useStyle(defaultClasses, props.classes, customStyles, listStyles);
 
     const [isQuick, setIsQuick] = useState(false);
 
@@ -84,63 +88,135 @@ const GalleryItem = props => {
         else document.body.style.overflow = 'visible';
     }, [isQuick]);
 
-    return (
-        <div
-            data-cy="GalleryItem-root"
-            className={classes.root}
-            aria-live="polite"
-            aria-busy="false"
-            ref={itemRef}
-        >
-            { isQuick ? <QuickView setIsOpen={setIsQuick} product={item}/> : ""}
-            
-            <div className={classes.quickViewItem}>
-                <AiFillEye size={28} onClick={() => setIsQuick(current => !current)}/>
-            </div>
-            
-            <Link
-                onClick={handleLinkClick}
-                to={productLink}
-                className={classes.images}
-            >
-                <Image
-                    alt={name}
-                    classes={{
-                        image: classes.image,
-                        loaded: classes.imageLoaded,
-                        notLoaded: classes.imageNotLoaded,
-                        root: classes.imageContainer
-                    }}
-                    height={IMAGE_HEIGHT}
-                    resource={smallImageURL}
-                    widths={IMAGE_WIDTHS}
-                />
-            </Link>
-            <div className={classes.galleryBrand}>
-                {item.product_brand}
-            </div>
-            <Link
-                onClick={handleLinkClick}
-                to={productLink}
-                className={classes.name}
-                data-cy="GalleryItem-name"
-            >
-                <span>{name}</span>
-            </Link>
-            <div data-cy="GalleryItem-price" className={classes.price}>
-                <Price
-                    value={priceSource.value}
-                    currencyCode={priceSource.currency}
-                />
-            </div>
 
-            <div className={classes.actionsContainer}>
-                {' '}
-                {addButton}
-                {wishlistButton}
+    if(viewMode === GRID) {
+        return (
+            <div
+                data-cy="GalleryItem-root"
+                className={classes.root}
+                aria-live="polite"
+                aria-busy="false"
+                ref={itemRef}
+            >
+                { isQuick ? <QuickView setIsOpen={setIsQuick} product={item}/> : ""}
+                
+                <div className={classes.quickViewItem}>
+                    <AiFillEye size={28} onClick={() => setIsQuick(current => !current)}/>
+                </div>
+                
+                <Link
+                    onClick={handleLinkClick}
+                    to={productLink}
+                    className={classes.images}
+                >
+                    <Image
+                        alt={name}
+                        classes={{
+                            image: classes.image,
+                            loaded: classes.imageLoaded,
+                            notLoaded: classes.imageNotLoaded,
+                            root: classes.imageContainer
+                        }}
+                        height={IMAGE_HEIGHT}
+                        resource={smallImageURL}
+                        widths={IMAGE_WIDTHS}
+                    />
+                </Link>
+                <div className={classes.galleryBrand}>
+                    {item.product_brand}
+                </div>
+                <Link
+                    onClick={handleLinkClick}
+                    to={productLink}
+                    className={classes.name}
+                    data-cy="GalleryItem-name"
+                >
+                    <span>{name}</span>
+                </Link>
+                <div data-cy="GalleryItem-price" className={classes.price}>
+                    <Price
+                        value={priceSource.value}
+                        currencyCode={priceSource.currency}
+                    />
+                </div>
+    
+                <div className={classes.actionsContainer}>
+                    {' '}
+                    {addButton}
+                    {wishlistButton}
+                </div>
             </div>
-        </div>
-    );
+        );
+    } 
+    if (viewMode === LIST) {
+        return (
+            <div
+                data-cy="GalleryItem-root"
+                className={classes.itemContainer}
+                aria-live="polite"
+                aria-busy="false"
+                ref={itemRef}
+            >
+                { isQuick ? <QuickView setIsOpen={setIsQuick} product={item}/> : ""}
+                
+                <div className={classes.quickViewItem}>
+                    <AiFillEye size={28} onClick={() => setIsQuick(current => !current)}/>
+                </div>
+                
+                <Link
+                    onClick={handleLinkClick}
+                    to={productLink}
+                    className={classes.imageContainer}
+                >
+                    <Image
+                        alt={name}
+                        classes={{
+                            image: classes.itemImage,
+                        }}
+                        height={IMAGE_HEIGHT}
+                        resource={smallImageURL}
+                        widths={IMAGE_WIDTHS}
+                    />
+                </Link>
+
+                <div className={classes.infoContainer}>
+                    <div className={classes.mainIfno}>
+                        <div className={classes.topIfno}>
+                            <Link
+                                onClick={handleLinkClick}
+                                to={productLink}
+                                className={classes.name}
+                                data-cy="GalleryItem-name"
+                            >
+                                <span>{name}</span>
+                            </Link>
+
+                            <div className={classes.galleryBrand}>
+                                Brand: {item.product_brand}
+                            </div>
+
+                            <div data-cy="GalleryItem-price" className={classes.price}>
+                                <Price
+                                    value={priceSource.value}
+                                    currencyCode={priceSource.currency}
+                                />
+                            </div>
+                        </div>
+                        <section className={classes.description}>
+                            <span className={classes.name}>Description: </span> 
+                            Lorem ipsum odor amet, consectetuer adipiscing elit. Dictumst sagittis taciti blandit curae elementum class class lobortis libero. Torquent dis purus justo enim sodales; nec tempus tellus. Eu dapibus maecenas vulputate aenean mauris efficitur. Vivamus aliquet nisl porta eget mus; at curabitur rhoncus. Aet maximus efficitur semper dis fringilla orci.
+                        </section>
+                    </div>
+        
+                    <div className={classes.actionsContainer}>
+                        {' '}
+                        {addButton}
+                        {wishlistButton}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 };
 
 GalleryItem.propTypes = {
